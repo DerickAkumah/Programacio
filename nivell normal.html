@@ -234,8 +234,6 @@ var experience = 0;
 var gameMessage = "Fes servir les fleches per mouret. ¡Cada pas gasta energía!";
 var alive = true;
 
-render();
-
 function keydownHandler(event) {
     if(!alive) return;
     var newRow = shipRow, newColumn = shipColumn;
@@ -386,7 +384,7 @@ function render() {
         }
     }
     
-    var outputText = gameMessage + "<br><strong>Oro:</strong> " + gold + " | <strong>Energía:</strong> " + food + " | <strong>Exp:</strong> " + experience;
+    var outputText = gameMessage + "<br><strong>🪙Or:</strong> " + gold + " | <strong>⚡Energía:</strong> " + food + " | <strong>🧠Exp:</strong> " + experience;
     if(hasGasolina) outputText += " | <strong>⛽ Gasolina: SÍ</strong>";
     if(portalActivated) outputText += " | <span class='portal-active'>🌀 PORTAL ACTIU</span>";
     

@@ -261,7 +261,6 @@ var experience = 0;
 var gameMessage = "Fes servir les fleches per mouret. ¡Recull la gasolina i escapa!";
 var alive = true;
 var moveCount = 0;
-var monsterSpeedMultiplier = 1;
 var swordBreakChance = 0.2;
 var maxMonsters = 15;
 
@@ -373,8 +372,6 @@ function keydownHandler(event) {
 
     if(moveCount % 30 === 0 && monsters.length < maxMonsters) spawnNewMonster();
     if(moveCount % 12 === 0) removeOldCoins();
-    if(moveCount % 25 === 0 && monsterSpeedMultiplier < 3) monsterSpeedMultiplier += 0.15;
-
     render();
 }
 
@@ -457,7 +454,6 @@ function removeOldCoins() {
 function moveAllMonsters() { for(var i = 0; i < monsters.length; i++) moveMonsterRandom(i); }
 function moveMonsterRandom(idx) {
     var m = monsters[idx];
-    if(moveCount % Math.max(1, Math.floor(3 - monsterSpeedMultiplier)) !== 0) return;
     var dirs = [];
     if(m.row > 0 && map[m.row-1][m.col] === WATER && gameObjects[m.row-1][m.col] === 0) dirs.push({r:-1, c:0});
     if(m.row < ROWS-1 && map[m.row+1][m.col] === WATER && gameObjects[m.row+1][m.col] === 0) dirs.push({r:1, c:0});

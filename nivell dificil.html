@@ -188,7 +188,7 @@ var MONSTER = 5;
 var PORTAL = 6; 
 var GASOLINA = 7;
 var COIN = 8;
-var QUICKSAND = 9;
+var PEDRA = 9;
 var VORTEX = 10;
 
 var UP = 38;
@@ -283,7 +283,7 @@ function keydownHandler(event) {
 
     var energyCost = 1;
     if(map[newRow][newColumn] === ISLAND) energyCost = 2;
-    else if(map[newRow][newColumn] === QUICKSAND) energyCost = 3;
+    else if(map[newRow][newColumn] === PEDRA) energyCost = 3;
     else if(map[newRow][newColumn] === VORTEX) energyCost = 4;
     
     food -= energyCost;
@@ -326,7 +326,7 @@ function keydownHandler(event) {
         if(map[shipRow][shipColumn] === VORTEX) {
             var teleRow = Math.floor(Math.random() * ROWS);
             var teleCol = Math.floor(Math.random() * COLUMNS);
-            while(map[teleRow][teleCol] === ISLAND || map[teleRow][teleCol] === VORTEX || map[teleRow][teleCol] === QUICKSAND) {
+            while(map[teleRow][teleCol] === ISLAND || map[teleRow][teleCol] === VORTEX || map[teleRow][teleCol] === PEDRA) {
                 teleRow = Math.floor(Math.random() * ROWS);
                 teleCol = Math.floor(Math.random() * COLUMNS);
             }
@@ -354,7 +354,7 @@ function keydownHandler(event) {
                     return;
                 } else { gameMessage = "¡No tens gasolina! No pots despegar."; }
                 break;
-            case QUICKSAND: 
+            case PEDRA: 
                 gameMessage = "¡Trepitges les pedres! Perds moviment i energía.";
                 food -= 2;
                 break;
@@ -364,15 +364,18 @@ function keydownHandler(event) {
     moveAllMonsters();
     moveAllVortexes();
 
-    if(gameObjects[shipRow][shipColumn] === MONSTER && !hasSword) {
+    if(gameObjects[shipRow][shipColumn] === MONSTER) {
+    if(hasSword) {
+        removeMonsterAt(shipRow, shipColumn);
+        gameMessage = "¡Un monstre ha mort al tocar-te!";
+    } else {
         endGame();
         playDeathVideo("¡Un ull t'ha atrapat!", "images/ullmatad.mp4");
         return;
     }
-
-    if(moveCount % 30 === 0 && monsters.length < maxMonsters) spawnNewMonster();
-    if(moveCount % 12 === 0) removeOldCoins();
-    render();
+}
+ if(moveCount % 12 === 0) removeOldCoins();
+render();
 }
 
 function combatRound() {
@@ -428,19 +431,6 @@ function collectCoin() {
     gameMessage = "¡Reculls una moneda! Guanyes " + coinAmount + ".";
     map[shipRow][shipColumn] = WATER;
     experience += 1;
-}
-
-function spawnNewMonster() {
-    var newRow, newCol, attempts = 0;
-    do {
-        newRow = Math.floor(Math.random() * ROWS);
-        newCol = Math.floor(Math.random() * COLUMNS);
-        attempts++;
-    } while((map[newRow][newCol] !== WATER) && attempts < 10);
-    if(attempts < 10) {
-        monsters.push({row: newRow, col: newCol});
-        gameObjects[newRow][newCol] = MONSTER;
-    }
 }
 
 function removeOldCoins() {
@@ -526,7 +516,7 @@ function render() {
                 case HOME: cell.src = "images/helicoptero.png"; break;
                 case GASOLINA: cell.src = "images/gasolina.png"; break;
                 case PORTAL: cell.src = "images/portal.gif"; break;
-                case QUICKSAND: cell.src = "images/pedra.png"; cell.style.opacity = "0.3"; break;
+                case PEDRA: cell.src = "images/pedra.png"; cell.style.opacity = "0.3"; break;
                 case VORTEX: cell.src = "images/tornado.png"; break;
             }
             switch(gameObjects[mr][mc]) {

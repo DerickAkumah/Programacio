@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Island Adventure - Soccerdition</title>
+    <title>Island Adventure </title>
     <style>
         /* IMPORTAR FUENTE RETRO */
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -234,6 +234,8 @@ var experience = 0;
 var gameMessage = "Fes servir les fleches per mouret. ¡Cada pas gasta energía!";
 var alive = true;
 
+render();
+
 function keydownHandler(event) {
     if(!alive) return;
     var newRow = shipRow, newColumn = shipColumn;
@@ -384,7 +386,7 @@ function render() {
         }
     }
     
-    var outputText = gameMessage + "<br><strong>🪙Or:</strong> " + gold + " | <strong>⚡Energía:</strong> " + food + " | <strong>🧠Exp:</strong> " + experience;
+    var outputText = gameMessage + "<br>🪙<strong>Or:</strong> " + gold + " | ⚡<strong>Energía:</strong> " + food + " | 🧠<strong>Exp:</strong> " + experience;
     if(hasGasolina) outputText += " | <strong>⛽ Gasolina: SÍ</strong>";
     if(portalActivated) outputText += " | <span class='portal-active'>🌀 PORTAL ACTIU</span>";
     

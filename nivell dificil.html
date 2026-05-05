@@ -242,7 +242,7 @@ var shipColumn = 0;
 var hasGasolina = false;
 var hasSword = false;
 var swordDurability = 100;
-var gasExpireTimer = 50;
+var gasExpireTimer = 30;
 
 var gameObjects = [];
 for(var i = 0; i < ROWS; i++) {
@@ -302,7 +302,7 @@ function keydownHandler(event) {
     }
 
     if(gameObjects[newRow][newColumn] === MONSTER) {
-        if(hasSword) {
+        if(hasSword){
             var resultado = combatRound();
             gameMessage = resultado.message;
             if(resultado.monsterDead) {
@@ -341,10 +341,10 @@ function keydownHandler(event) {
         switch(map[shipRow][shipColumn]) {
             case WATER: gameMessage = "Navegues per camp obert."; break;
             case COIN: collectCoin(); break;
-            case ISLAND: handleIsland(); break;
+            case ISLAND: començarmercat(); break;
             case GASOLINA: 
-                hasGasolina = true; gasExpireTimer = 50;
-                gameMessage = "¡Aconseguires la gasolina! Tens 50 moviments per escapar.";
+                hasGasolina = true; gasExpireTimer = 30;
+                gameMessage = "¡Aconseguires la gasolina! Tens 30 moviments per escapar.";
                 map[shipRow][shipColumn] = WATER;
                 break;
             case HOME: 
@@ -392,23 +392,23 @@ function combatRound() {
     }
 }
 
-function handleIsland() {
+function començarmercat() {
     gameMessage = "¡Estás en un mercat! ";
     if(gold > 0) {
         if(!hasSword) {
             if(gold >= 20) {
                 gameMessage += "Prem E per a l'ESPASA (20) o C per a la COMIDA.";
-                var tempKeyListener = function(e) {
+                var teclatemporal = function(e) {
                     if(e.key.toLowerCase() === 'e') {
                         hasSword = true; gold -= 20; gameMessage = "¡Compres una ESPASA! 🗡️";
-                        finishIsland(tempKeyListener);
+                        acabarmercat(teclatemporal);
                     } else if(e.key.toLowerCase() === 'c') {
                         food += gold; gameMessage = "¡Compres comida!"; gold = 0;
-                        finishIsland(tempKeyListener);
+                        acabarmercat(teclatemporal);
                     }
                 };
                 window.removeEventListener("keydown", keydownHandler);
-                window.addEventListener("keydown", tempKeyListener);
+                window.addEventListener("keydown", teclatemporal);
             } else {
                 food += gold; gameMessage += "¡Compres comida!"; gold = 0;
             }
@@ -418,7 +418,7 @@ function handleIsland() {
     } else { gameMessage += "No tens monedes."; }
 }
 
-function finishIsland(listener) {
+function acabarisla(listener) {
     experience += 1;
     window.removeEventListener("keydown", listener);
     window.addEventListener("keydown", keydownHandler, false);
@@ -478,7 +478,6 @@ function removeMonsterAt(row, col) {
     }
 }
 
-// Función de muerte actualizada
 function playDeathVideo(reason, videoPath) {
     videoSource.src = videoPath;
     deathVideo.load();
@@ -531,7 +530,7 @@ function render() {
     output.innerHTML = gameMessage + "<br><strong>Or:</strong> " + gold + " | <strong>Energía:</strong> " + food + " | <strong>Exp:</strong> " + experience;
     output.innerHTML += hasSword ? " | <span class='espada-active'>🗡️ Espasa: OK</span>" : " | <span class='warning'>🗡️ Espasa: NO</span>";
     if(hasGasolina) {
-        output.innerHTML += " | <span class='gasolina-active'>⛽ Gasolina: SÍ</span> " + (gasExpireTimer < 30 ? "<span class='danger'>(⏰" + gasExpireTimer + ")</span>" : "");
+        output.innerHTML += " | <span class='gasolina-active'>⛽ Gasolina: SÍ</span> " + (gasExpireTimer < 15 ? "<span class='danger'>(⏰" + gasExpireTimer + ")</span>" : "");
     }
 }
 </script>

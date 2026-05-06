@@ -161,7 +161,7 @@
         <h2>GAME OVER</h2>
         <p id="gameOverReason"></p>
         <p id="gameOverScore"></p>
-        <button id="restartBtn" onclick="location.reload()">VOLVER A JUGAR</button>
+        <button id="restartBtn" onclick="location.reload()">TORNA A JUGAR</button>
     </div>
 </div>
 
@@ -527,7 +527,7 @@ function render() {
         }
     }
 
-    output.innerHTML = gameMessage + "<br><strong>Or:</strong> " + gold + " | <strong>Energía:</strong> " + food + " | <strong>Exp:</strong> " + experience;
+    output.innerHTML = gameMessage + "<br>🪙<strong>Or:</strong> " + gold + " | ⚡<strong>Energía:</strong> " + food + " | 🧠<strong>Exp:</strong> " + experience;
     output.innerHTML += hasSword ? " | <span class='espada-active'>🗡️ Espasa: OK</span>" : " | <span class='warning'>🗡️ Espasa: NO</span>";
     if(hasGasolina) {
         output.innerHTML += " | <span class='gasolina-active'>⛽ Gasolina: SÍ</span> " + (gasExpireTimer < 15 ? "<span class='danger'>(⏰" + gasExpireTimer + ")</span>" : "");
